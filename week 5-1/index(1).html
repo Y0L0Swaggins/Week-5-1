@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<!--file creator: Richard Martin
+email:ricmart1@uat.edu
+for csc102 class sp2021online3-->
+
+<!-- Casino Assignment
+Title: Faster Than Light Casino
+Scene: The ceiling is a lazer light display of lightspeed travel. Patrons are scattered 
+all across the red with gold trimed tables. The floor is alive with with lights changing colors 
+when they are stepped on. The space port is filled with cruisers from all across the galaxy,
+as this is the number one high stakes casino in all of the milky way galaxy. Feeling lucky
+you step up to try your luck as a high roller. The Craps tables are waiting...-->
+<html lang="en">
+
+<link href="UATstyle.css" rel="stylesheet" type="text/css" /> <!--we are linking style sheets-->
+<script src="code.js"></script> <!--this is to link our hard codeing to the UI page-->
+<script src="dataLoader-1.js"></script> 
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> UAT Space Stuff Martin </title>
+</head>
+
+
+
+<body>
+    <!--needed ofr dom-->
+    <script>
+        var theTime = new Date();
+        var tempTime = new Date();
+        var time_interval = 5000;
+        var last_iteration= 0;
+        var running = true;
+        var index = 0; 
+        var timer;
+
+var data = getData(); // to get the data from dataLoader-1
+function udateDisplay(){
+theTime = new Date();
+
+//fill in the table
+var timeRead = data[index].time_seconds;
+if(timeRead >= 10){
+    document.getElementById("data").rows["seconds"].innerHTML = dataRow("Time Elapsed",data[index].time_seconds,"seconds");
+    document.getElementById("data").rows["latitude"].innerHTML = dataRow("Latitude",data[index].latitude," ");
+    document.getElementById("data").rows["longitude"].innerHTML = dataRow("Longitude",data[index].longitude," ");
+    document.getElementById("data").rows["gps_altitude"].innerHTML = dataRow("Gps Altitude",data[index].gps_altitude," ");
+    document.getElementById("data").rows["bmpSensor_altitude"].innerHTML = dataRow("BMP Sensor Altitude",data[index].bmpSensor_altitude," ");
+    document.getElementById("data").rows["bmpSensor_preassure"].innerHTML = dataRow("BMP Sensor Preassure",data[index].bmpSensor_preassure," ");
+    document.getElementById("data").rows["bmpSensor_temp"].innerHTML = dataRow("BMP Sensor Temp",data[index].bmpSensor_temp," ");
+    document.getElementById("data").rows["digitalSensor_temp"].innerHTML = dataRow("Digital Sensor Temp",data[index].digitalSensor_temp," ");
+    document.getElementById("data").rows["cssSensor_temp"].innerHTML = dataRow("CSS Sensor Temp",data[index].cssSensor_temp," ");
+    document.getElementById("data").rows["cssSensor_eCO2"].innerHTML = dataRow("CSS Sensor eCO2",data[index].cssSensor_eCO2," ");
+    document.getElementById("data").rows["cssSensor_TVOC"].innerHTML = dataRow("CSS Sensor TVOC",data[index].cssSensor_TVOC," ");
+    document.getElementById("data").rows["UV"].innerHTML = dataRow("UV",data[index].UV," ");
+    document.getElementById("data").rows["accelX"].innerHTML = dataRow("Accel X",data[index].accelX," ");
+    document.getElementById("data").rows["accelY"].innerHTML = dataRow("Accel Y",data[index].accelY," ");
+    document.getElementById("data").rows["accelZ"].innerHTML = dataRow("Accel Z",data[index].accelZ," ");
+    document.getElementById("data").rows["magneticX"].innerHTML = dataRow("Magnetic X",data[index].magneticX," ");
+    document.getElementById("data").rows["magneticY"].innerHTML = dataRow("Magnetic Y",data[index].magneticY," ");
+    document.getElementById("data").rows["magneticZ"].innerHTML = dataRow("Magnetic Z",data[index].magneticZ," ");
+    document.getElementById("data").rows["gyroX"].innerHTML = dataRow("Gyro X",data[index].gyroX," ");
+    document.getElementById("data").rows["gyroY"].innerHTML = dataRow("Gyro Y",data[index].gyroY," ");
+    document.getElementById("data").rows["gyroZ"].innerHTML = dataRow("Gyro Z",data[index].gyroZ," ");
+
+}
+if(index < 500){
+    index++;
+}else{
+index = 0;
+    }
+}
+
+
+
+
+    </script>
+<table> <!--using this to get the image and text on the same line-->
+    <td><img src="UATspaceLogo-2.jpg"></td> <!--inside-->
+    <td><h1>UAT Space Program</h1></td>
+</table>
+
+<table border="2"id="data" width="70%" bordercolor= "darkgoldenrod" class="mainTable"> <!-- Styling for main table boarder--> 
+    <col style="width: 35%;"> <!-- setting two columbs to take up 70% of screen and be equal-->
+    <col style="width: 35%;">
+    <thead>
+    <tr style="font-family: fantasy;"> <!--setting font for tables heading-->
+        <th align="left">Data Type</th><!--Making text left justified-->
+        <th align="left">Reading</th><!--left justified on both columbs-->
+    </tr>
+    </thead>
+    <tbody><!--creating main table body and data-->
+        <tr id="seconds">  </tr>
+        <tr id="latitude">  </tr>
+        <tr id="longitude">  </tr>
+        <tr id="gps_altitude">  </tr>
+        <tr id="bmpSensor_altitude">  </tr>
+        <tr id="bmpSensor_preassure">  </tr>
+        <tr id="bmpSensor_temp">  </tr>
+        <tr id="digitalSensor_temp">  </tr>
+        <tr id="cssSensor_temp">  </tr>
+        <tr id="cssSensor_eCO2">   </tr>
+        <tr id="cssSensor_TVOC">   </tr>
+        <tr id="UV">    </tr>
+        <tr id="accelX">   </tr>
+        <tr id="accely">   </tr>
+        <tr id="accelZ">   </tr>
+        <tr id="magneticX">   </tr>
+        <tr id="magneticY">    </tr>
+        <tr id="magneticZ">   </tr>
+        <tr id="gyroX">   </tr>
+        <tr id="gyroY">    </tr>
+        <tr id="gyroZ">    </tr>
+    </tbody>
+</table>
+
+<br>
+<br>
+<button class="button" id="startButton" onclick="start();">Start</button><!--start button-->
+<button id="stopButton" onclick="stop();" class="button">Stop</button><!--stop button-->
+<br>
+<button class="button" onclick="playStation();">Play Sound</button><br><!-- button to play sound clip-->
+
+
+<br>
+<br>
+
+    <p id="countDownTimer")>Starting countdown here... </p>
+
+    <button class="button"id="startButton" onclick="start();"> Start </button>
+    <button id="stopButton" onclick="stop();" class="button">Stop </button>
+<!--This secction is all about what will get displayed from the Craps game on the space casino-->
+    <br>
+    <br>
+    <h3 id="crapsResults">Results of the Craps Round </h3> <!--almost self explanitory. the results of craps h3 for good size-->
+    <br> 
+    Die1 is: <div id="die1Res">needs to be rolled</div><br> <!-- just stating that the dice have yet to role yet-->
+    Die2 is: <div id="die2Res">needs to be rolled</div><br> <!-- Each dice gets a display. Brings attention that they exist-->
+    Sum of Die1 + Die2 is: <div id="sumRes">needs to be rolled</div> <!-- where the combined totall will be displayed-->
+    <br>
+    <button class="lgButton" onclick="playCraps();">Play Craps Here!</button> <!-- new button class made for larger sized buttons-->
+<br>
+<br>
+<br>
+<div id="sandboxDisplay">Sandbox Display</div>
+<br>
+<button class="sandButton" onclick="runSandbox();"> Try It! </button>
+
+
+
+</body>
+
+</html>
